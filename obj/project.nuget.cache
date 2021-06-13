@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "Y6ffR7wUIoDfcLI/aQD8c+xNy1L1F94x2DNmSaAAXytsvTaQOTf0uCiUXGZgVxsDaCTzZCBwbWxOA9KMuArl2Q==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\creep\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\NoSnowLitter\\NoSnowLitter.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\creep\\.nuget\\packages\\tmodloader.codeassist\\0.1.2\\tmodloader.codeassist.0.1.2.nupkg.sha512"
+  ],
+  "logs": []
+}

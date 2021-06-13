@@ -1,0 +1,9 @@
+﻿displayName = No Snow Litter
+author = Snek
+version = 1.0.0.0
+homepage = 
+hideCode = false
+hideResources = false
+includeSource = true
+buildIgnore = build.txt, ./*, bin/*, obj/*, Properties/*
+includePDB = true
