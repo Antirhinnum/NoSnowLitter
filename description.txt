@@ -1,1 +1,5 @@
 ﻿A simple mod that prevents the Hostile Snow Balls thrown by Snow Ballas from creating tiles. That's it.
+
+Changelog:
+ - 1.0.0.0: Release
+ - 1.0.0.1: Changed homepage to TCF page.
