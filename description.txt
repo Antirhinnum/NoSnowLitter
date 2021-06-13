@@ -1,1 +1,1 @@
-﻿A simple mod that prevents the Hostile Snow Balls thrown by Snow Balls from creating tiles. That's it.
+﻿A simple mod that prevents the Hostile Snow Balls thrown by Snow Ballas from creating tiles. That's it.
