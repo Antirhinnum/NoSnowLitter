@@ -1,5 +1,7 @@
-﻿A simple mod that prevents the Hostile Snow Balls thrown by Snow Ballas from creating tiles. That's it.
+﻿A simple mod that gives the player the option to disable enemies placing blocks (Snow Ballas, Antlions).
+Also allows the player to disable the Sandgun from placing blocks.
 
 Changelog:
  - 1.0.0.0: Release
  - 1.0.0.1: Changed homepage to TCF page.
+ - 1.1.0.0: Added sand-related changes. Added config options. Renamed mod to "No Block Litter".

@@ -1,4 +1,6 @@
-﻿using Terraria;
+﻿using NoSnowLitter.Common.Configs;
+using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace NoSnowLitter.Common.GlobalProjectiles
@@ -7,8 +9,15 @@ namespace NoSnowLitter.Common.GlobalProjectiles
 	{
 		public override void SetDefaults(Projectile projectile)
 		{
-			// Projectile.Kill() checks for noDropItem being false before going through with the tile-placing logic, so this stops the code there without removing the dust that's spawned.
-			if (projectile.type == Terraria.ID.ProjectileID.SnowBallHostile)
+			if (!ModContent.GetInstance<BlockLitterConfig>().StopSnowballLitter)
+			{
+				return;
+			}
+
+			// Snow Ballas create one projectile: SnowBallHostile (109).
+			// This will only create a block if projectile.noDropItem is false, so we set it to true.
+
+			if (projectile.type == ProjectileID.SnowBallHostile)
 			{
 				projectile.noDropItem = true;
 			}
