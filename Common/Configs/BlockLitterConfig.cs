@@ -3,28 +3,39 @@ using Terraria.ModLoader.Config;
 
 namespace NoSnowLitter.Common.Configs
 {
+	public enum DropType
+	{
+		Vanilla,
+		Item,
+		None
+	}
+
 	public class BlockLitterConfig : ModConfig
 	{
 		public override ConfigScope Mode => ConfigScope.ServerSide;
 
-		[DefaultValue(true)]
-		[DisplayName("Stop Snow Balla Litter")]
-		[Tooltip("Stops Snow Ballas from creating Snow Blocks.")]
-		public bool StopSnowballLitter { get; set; }
+		[DefaultValue(DropType.Item)]
+		[DrawTicks]
+		[Label("$Mods.NoSnowLitter.Config.SnowBallaLitter.Label")]
+		[Tooltip("$Mods.NoSnowLitter.Config.SnowBallaLitter.Tooltip")]
+		public DropType SnowballLitter { get; set; }
 
-		[DefaultValue(true)]
-		[DisplayName("Stop Antlion Litter")]
-		[Tooltip("Stops Antlions from creating Sand Blocks.")]
-		public bool StopAntlionSandLitter { get; set; }
+		[DefaultValue(DropType.Item)]
+		[DrawTicks]
+		[Label("$Mods.NoSnowLitter.Config.AntlionLitter.Label")]
+		[Tooltip("$Mods.NoSnowLitter.Config.AntlionLitter.Tooltip")]
+		public DropType AntlionSandLitter { get; set; }
 
-		[DefaultValue(true)]
-		[DisplayName("Stop Sandgun Litter")]
-		[Tooltip("Stops the Sandgun from placing Sand blocks.")]
-		public bool StopSandgunLitter { get; set; }
+		[DefaultValue(DropType.Vanilla)]
+		[DrawTicks]
+		[Label("$Mods.NoSnowLitter.Config.SandgunLitter.Label")]
+		[Tooltip("$Mods.NoSnowLitter.Config.SandgunLitter.Tooltip")]
+		public DropType SandgunLitter { get; set; }
 
-		//[DefaultValue(true)]
-		//[DisplayName("Stop Tombstone Litter")]
-		//[Tooltip("Stops dropped Tombstones from placing into the world.")]
-		//public bool StopTombstoneLitter { get; set; }
+		[DefaultValue(DropType.Item)]
+		[DrawTicks]
+		[Label("$Mods.NoSnowLitter.Config.TombstoneLitter.Label")]
+		[Tooltip("$Mods.NoSnowLitter.Config.TombstoneLitter.Tooltip")]
+		public DropType TombstoneLitter { get; set; }
 	}
 }

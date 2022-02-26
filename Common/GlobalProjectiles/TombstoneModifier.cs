@@ -1,87 +1,59 @@
-﻿//using Terraria;
-//using MonoMod.Cil;
-//using Terraria.ModLoader;
-//using System;
-//using NoSnowLitter.Common.Configs;
-//using Mono.Cecil.Cil;
+﻿using NoSnowLitter.Common.Configs;
+using System.Collections.Generic;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
-//namespace NoSnowLitter.Common.GlobalProjectiles
-//{
-//	public class TombstoneModifier : GlobalProjectile
-//	{
-//		public override bool Autoload(ref string name)
-//		{
-//			IL.Terraria.Projectile.VanillaAI += PreventPlacingTombstones;
-//			return base.Autoload(ref name);
-//		}
+namespace NoSnowLitter.Common.GlobalProjectiles
+{
+	public class TombstoneModifier : GlobalProjectile
+	{
+		private static readonly Dictionary<int, int> _graveMarkerProjectileTypeToItemType = new Dictionary<int, int>()
+		{
+			{ ProjectileID.Tombstone, ItemID.Tombstone },
+			{ ProjectileID.GraveMarker, ItemID.GraveMarker },
+			{ ProjectileID.CrossGraveMarker, ItemID.CrossGraveMarker },
+			{ ProjectileID.Headstone, ItemID.Headstone },
+			{ ProjectileID.Gravestone, ItemID.Gravestone },
+			{ ProjectileID.Obelisk, ItemID.Obelisk },
+			{ ProjectileID.RichGravestone1, ItemID.RichGravestone1 },
+			{ ProjectileID.RichGravestone2, ItemID.RichGravestone2 },
+			{ ProjectileID.RichGravestone3, ItemID.RichGravestone3 },
+			{ ProjectileID.RichGravestone4, ItemID.RichGravestone4 },
+			{ ProjectileID.RichGravestone5, ItemID.RichGravestone5 }
+		};
 
-//		/// <summary>
-//		/// Changes the following check in Projectile.VanillaAI:
-//		///
-//		///		if (owner != Main.myPlayer)
-//		///			return;
-//		///		
-//		///		int num261 = (int)((base.position.X + (float)(width / 2)) / 16f);
-//		///
-//		/// to:
-//		///
-//		///		if (owner != Main.myPlayer)
-//		///			return;
-//		///		
-//		///		if (ModContent.GetInstance<BlockLitterConfig>().StopTombstoneLitter)
-//		///			return;
-//		///		
-//		///		int num261 = (int)((base.position.X + (float)(width / 2)) / 16f);
-//		///
-//		/// </summary>
-//		private void PreventPlacingTombstones(ILContext il)
-//		{
-//			ILCursor cursor = new ILCursor(il);
+		public override bool PreAI(Projectile projectile)
+		{
+			// It's not worth it to prevent tombstones from dropping entirely, so instead,
+			// on the very first frame of a Tombstone existing, it is killed and the associated
+			// item is dropped.
 
-//			/// Match the following IL:
-//			///		IL_BCFA: ldarg.0
-//			///		IL_BCFB: ldfld     int32 Terraria.Projectile::aiStyle
-//			///		IL_BD00: ldc.i4.s  17
-//			///		IL_BD02: bne.un    IL_BEF8
-//			///	This places the cursor onto ldarg.0.
-			
-//			if (!cursor.TryGotoNext(MoveType.Before,
-//				i => i.MatchLdarg(0),
-//				i => i.MatchLdfld<Projectile>(nameof(Projectile.aiStyle)),
-//				i => i.MatchLdcI4(17),
-//				i => i.MatchBneUn(out _)
-//			))
-//			{
-//				throw new Exception("Unable to patch Terraria.Projectile.VanillaAI: Could not match IL (aiStyle check).");
-//			}
+			if (projectile.aiStyle != 17 || projectile.owner != Main.myPlayer)
+			{
+				return base.PreAI(projectile);
+			}
 
-//			/// Match the following IL:
-//			/// 	IL_BD63: ldarg.0
-//			///		IL_BD64: ldfld     int32 Terraria.Projectile::owner
-//			///		IL_BD69: ldsfld    int32 Terraria.Main::myPlayer
-//			///		IL_BD6E: beq.s     IL_BD71
-//			///	This places the cursor onto ldarg.0. 
+			DropType stopTombstoneLitterOption = ModContent.GetInstance<BlockLitterConfig>().TombstoneLitter;
 
-//			if (!cursor.TryGotoNext(MoveType.Before,
-//				i => i.MatchLdarg(0),
-//				i => i.MatchLdfld<Projectile>(nameof(Projectile.owner)),
-//				i => i.MatchLdsfld<Main>(nameof(Main.myPlayer)),
-//				i => i.MatchBeq(out _)
-//			))
-//			{
-//				throw new Exception("Unable to patch Terraria.Projectile.VanillaAI: Could not match IL (owner check).");
-//			}
+			if (stopTombstoneLitterOption == DropType.Vanilla)
+			{
+				return base.PreAI(projectile);
+			}
 
-//			cursor.Index += 4;
+			if (stopTombstoneLitterOption == DropType.Item)
+			{
+				int itemIndex = Item.NewItem(projectile.Hitbox, _graveMarkerProjectileTypeToItemType[projectile.type]);
+				Main.item[itemIndex].noGrabDelay = 0;
 
-//			// Add a return after the owner check.
+				if (Main.netMode == NetmodeID.Server)
+				{
+					NetMessage.SendData(MessageID.SyncItem, -1, -1, null, itemIndex, 1f);
+				}
+			}
 
-//			ILLabel label = il.DefineLabel();
-
-//			cursor.EmitDelegate<Func<bool>>(() => ModContent.GetInstance<BlockLitterConfig>().StopTombstoneLitter);
-//			cursor.Emit(OpCodes.Brfalse, label);
-//			cursor.Emit(OpCodes.Ret);
-//			cursor.MarkLabel(label);
-//		}
-//	}
-//}
+			projectile.Kill();
+			return false;
+		}
+	}
+}

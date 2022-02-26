@@ -9,7 +9,7 @@ namespace NoSnowLitter.Common.GlobalProjectiles
 	{
 		public override void SetDefaults(Projectile projectile)
 		{
-			if (!ModContent.GetInstance<BlockLitterConfig>().StopSnowballLitter)
+			if (ModContent.GetInstance<BlockLitterConfig>().SnowballLitter == DropType.Vanilla)
 			{
 				return;
 			}
@@ -21,6 +21,21 @@ namespace NoSnowLitter.Common.GlobalProjectiles
 			{
 				projectile.noDropItem = true;
 			}
+		}
+
+		public override void Kill(Projectile projectile, int timeLeft)
+		{
+			if (ModContent.GetInstance<BlockLitterConfig>().SnowballLitter != DropType.Item)
+			{
+				return;
+			}
+
+			if (projectile.type != ProjectileID.SnowBallHostile || projectile.owner != Main.myPlayer)
+			{
+				return;
+			}
+
+			Item.NewItem(projectile.Hitbox, ItemID.SnowBlock);
 		}
 	}
 }

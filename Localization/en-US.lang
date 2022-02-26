@@ -1,0 +1,20 @@
+﻿ == Config ==
+
+ === SnowBallaLitter ===
+Config.SnowBallaLitter.Label=Snow Balla Litter
+Config.SnowBallaLitter.Tooltip=Handles the snowballs thrown by Snow Ballas.
+
+ === AntlionLitter ===
+
+Config.AntlionLitter.Label=Antlion Litter
+Config.AntlionLitter.Tooltip=Handles the sand blocks shot by Antlions.
+
+ === SandgunLitter ===
+
+Config.SandgunLitter.Label=Sandgun Litter
+Config.SandgunLitter.Tooltip=Handles the projectiles of the Sandgun.
+
+ === TombstoneLitter ===
+
+Config.TombstoneLitter.Label=Tombstone Litter
+Config.TombstoneLitter.Tooltip=Handles Tombstones created by dying players.

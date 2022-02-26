@@ -1,2 +1,2 @@
 # NoSnowLitter
-A tModLoader mod that removes annoying snow litter from the Frost Legion.
+A tModLoader mod that makes several projectiles no longer place tiles into the world.
