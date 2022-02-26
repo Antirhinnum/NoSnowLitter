@@ -1,0 +1,29 @@
+﻿Mods:
+{
+	NoSnowLitter:
+	{
+		Config:
+		{
+			SnowBallaLitter:
+			{
+				Label: Snow Balla Litter
+				Tooltip: Handles the snowballs thrown by Snow Ballas.
+			}
+			AntlionLitter:
+			{
+				Label: Antlion Litter
+				Tooltip: Handles the sand blocks shot by Antlions.
+			}
+			SandgunLitter:
+			{
+				Label: Sandgun Litter
+				Tooltip: Handles the projectiles of the Sandgun.
+			}
+			TombstoneLitter:
+			{
+				Label: Tombstone Litter
+				Tooltip: Handles Tombstones created by dying players.
+			}
+		}
+	}
+}

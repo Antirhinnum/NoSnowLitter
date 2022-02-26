@@ -9,7 +9,7 @@ namespace NoSnowLitter.Common.GlobalProjectiles
 	{
 		public override bool PreKill(Projectile projectile, int timeLeft)
 		{
-			if (!ModContent.GetInstance<BlockLitterConfig>().StopAntlionSandLitter)
+			if (ModContent.GetInstance<BlockLitterConfig>().AntlionSandLitter == DropType.Vanilla)
 			{
 				return base.PreKill(projectile, timeLeft);
 			}
@@ -25,6 +25,21 @@ namespace NoSnowLitter.Common.GlobalProjectiles
 			}
 
 			return base.PreKill(projectile, timeLeft);
+		}
+
+		public override void Kill(Projectile projectile, int timeLeft)
+		{
+			if (ModContent.GetInstance<BlockLitterConfig>().AntlionSandLitter != DropType.Item)
+			{
+				return;
+			}
+
+			if (projectile.type != ProjectileID.SandBallFalling || projectile.friendly)
+			{
+				return;
+			}
+
+			Item.NewItem(projectile.Hitbox, ItemID.SandBlock);
 		}
 	}
 }

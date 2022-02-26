@@ -5,5 +5,5 @@ homepage = https://forums.terraria.org/index.php?threads/no-snow-litter.106005/
 hideCode = false
 hideResources = false
 includeSource = true
-buildIgnore = build.txt, ./*, bin/*, obj/*, Properties/*, .gitignore, LICENSE, README.md
+buildIgnore = build.txt, ./*, bin/*, obj/*, Properties/*, .gitignore, LICENSE, README.md, *.pdn
 includePDB = true
