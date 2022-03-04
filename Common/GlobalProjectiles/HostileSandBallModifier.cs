@@ -39,7 +39,7 @@ namespace NoSnowLitter.Common.GlobalProjectiles
 				return;
 			}
 
-			Item.NewItem(projectile.Hitbox, ItemID.SandBlock);
+			Item.NewItem(projectile.GetItemSource_DropAsItem(), projectile.Hitbox, ItemID.SandBlock);
 		}
 	}
 }

@@ -7,3 +7,4 @@ Changelog:
  - 1.0.0.0: Release
  - 1.0.0.1: Changed homepage to TCF page.
  - 1.1.0.0: Added sand- and tombstone-related changes. Added config options. Renamed mod to "No Block Litter".
+ - 1.1.0.1: Fixed bugs introduced by a recent alpha update.

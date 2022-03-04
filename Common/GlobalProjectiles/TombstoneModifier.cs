@@ -43,7 +43,7 @@ namespace NoSnowLitter.Common.GlobalProjectiles
 
 			if (stopTombstoneLitterOption == DropType.Item)
 			{
-				int itemIndex = Item.NewItem(projectile.Hitbox, _graveMarkerProjectileTypeToItemType[projectile.type]);
+				int itemIndex = Item.NewItem(projectile.GetItemSource_DropAsItem(), projectile.Hitbox, _graveMarkerProjectileTypeToItemType[projectile.type]);
 				Main.item[itemIndex].noGrabDelay = 0;
 
 				if (Main.netMode == NetmodeID.Server)

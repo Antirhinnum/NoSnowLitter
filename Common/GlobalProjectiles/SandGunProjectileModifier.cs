@@ -9,14 +9,6 @@ namespace NoSnowLitter.Common.GlobalProjectiles
 {
 	public class SandGunProjectileModifier : GlobalProjectile
 	{
-		private static readonly int[] _sandGunProjectiles = new int[]
-		{
-			ProjectileID.SandBallGun,
-			ProjectileID.EbonsandBallGun,
-			ProjectileID.PearlSandBallGun,
-			ProjectileID.CrimsandBallGun
-		};
-
 		private static readonly IReadOnlyDictionary<int, int> _sandGunProjectileToItem = new Dictionary<int, int>()
 		{
 			{ ProjectileID.SandBallGun, ItemID.SandBlock },
@@ -36,7 +28,7 @@ namespace NoSnowLitter.Common.GlobalProjectiles
 			// SandBallGun (42), EbonsandBallGun (65), PearlSandBallGun (68), and CrimsandBallGun (354).
 			// Like most projectiles that place blocks, these will only place blocks if projectile.noDropItem is false.
 
-			if (_sandGunProjectiles.Contains(projectile.type))
+			if (_sandGunProjectileToItem.Keys.Contains(projectile.type))
 			{
 				projectile.noDropItem = true;
 			}
@@ -49,12 +41,12 @@ namespace NoSnowLitter.Common.GlobalProjectiles
 				return;
 			}
 
-			if (projectile.owner != Main.myPlayer || !_sandGunProjectiles.Contains(projectile.type))
+			if (projectile.owner != Main.myPlayer || !_sandGunProjectileToItem.Keys.Contains(projectile.type))
 			{
 				return;
 			}
 
-			Item.NewItem(projectile.Hitbox, _sandGunProjectileToItem[projectile.type]);
+			Item.NewItem(projectile.GetItemSource_DropAsItem(), projectile.Hitbox, _sandGunProjectileToItem[projectile.type]);
 		}
 	}
 }
