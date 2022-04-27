@@ -7,6 +7,11 @@ namespace NoSnowLitter.Common.GlobalProjectiles
 {
 	public class HostileSnowballModifier : GlobalProjectile
 	{
+		public override bool AppliesToEntity(Projectile entity, bool lateInstantiation)
+		{
+			return entity.type == ProjectileID.SnowBallHostile;
+		}
+
 		public override void SetDefaults(Projectile projectile)
 		{
 			if (ModContent.GetInstance<BlockLitterConfig>().SnowballLitter == DropType.Vanilla)
@@ -17,10 +22,7 @@ namespace NoSnowLitter.Common.GlobalProjectiles
 			// Snow Ballas create one projectile: SnowBallHostile (109).
 			// This will only create a block if projectile.noDropItem is false, so we set it to true.
 
-			if (projectile.type == ProjectileID.SnowBallHostile)
-			{
-				projectile.noDropItem = true;
-			}
+			projectile.noDropItem = true;
 		}
 
 		public override void Kill(Projectile projectile, int timeLeft)
@@ -30,12 +32,12 @@ namespace NoSnowLitter.Common.GlobalProjectiles
 				return;
 			}
 
-			if (projectile.type != ProjectileID.SnowBallHostile || projectile.owner != Main.myPlayer)
+			if (projectile.owner != Main.myPlayer)
 			{
 				return;
 			}
 
-			Item.NewItem(projectile.GetItemSource_DropAsItem(), projectile.Hitbox, ItemID.SnowBlock);
+			Item.NewItem(projectile.GetSource_DropAsItem(), projectile.Hitbox, ItemID.SnowBlock);
 		}
 	}
 }

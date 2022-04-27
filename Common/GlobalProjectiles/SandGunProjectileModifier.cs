@@ -1,6 +1,5 @@
 ﻿using NoSnowLitter.Common.Configs;
 using System.Collections.Generic;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -17,6 +16,11 @@ namespace NoSnowLitter.Common.GlobalProjectiles
 			{ ProjectileID.CrimsandBallGun, ItemID.CrimsandBlock }
 		};
 
+		public override bool AppliesToEntity(Projectile entity, bool lateInstantiation)
+		{
+			return _sandGunProjectileToItem.ContainsKey(entity.type);
+		}
+
 		public override void SetDefaults(Projectile projectile)
 		{
 			if (ModContent.GetInstance<BlockLitterConfig>().SandgunLitter == DropType.Vanilla)
@@ -28,10 +32,7 @@ namespace NoSnowLitter.Common.GlobalProjectiles
 			// SandBallGun (42), EbonsandBallGun (65), PearlSandBallGun (68), and CrimsandBallGun (354).
 			// Like most projectiles that place blocks, these will only place blocks if projectile.noDropItem is false.
 
-			if (_sandGunProjectileToItem.Keys.Contains(projectile.type))
-			{
-				projectile.noDropItem = true;
-			}
+			projectile.noDropItem = true;
 		}
 
 		public override void Kill(Projectile projectile, int timeLeft)
@@ -41,12 +42,12 @@ namespace NoSnowLitter.Common.GlobalProjectiles
 				return;
 			}
 
-			if (projectile.owner != Main.myPlayer || !_sandGunProjectileToItem.Keys.Contains(projectile.type))
+			if (projectile.owner != Main.myPlayer)
 			{
 				return;
 			}
 
-			Item.NewItem(projectile.GetItemSource_DropAsItem(), projectile.Hitbox, _sandGunProjectileToItem[projectile.type]);
+			Item.NewItem(projectile.GetSource_DropAsItem(), projectile.Hitbox, _sandGunProjectileToItem[projectile.type]);
 		}
 	}
 }

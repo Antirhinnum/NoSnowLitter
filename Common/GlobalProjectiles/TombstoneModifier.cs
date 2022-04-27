@@ -1,6 +1,7 @@
 ﻿using NoSnowLitter.Common.Configs;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,7 +9,7 @@ namespace NoSnowLitter.Common.GlobalProjectiles
 {
 	public class TombstoneModifier : GlobalProjectile
 	{
-		private static readonly Dictionary<int, int> _graveMarkerProjectileTypeToItemType = new()
+		private static readonly IReadOnlyDictionary<int, int> _graveMarkerProjectileTypeToItemType = new Dictionary<int, int>()
 		{
 			{ ProjectileID.Tombstone, ItemID.Tombstone },
 			{ ProjectileID.GraveMarker, ItemID.GraveMarker },
@@ -23,27 +24,33 @@ namespace NoSnowLitter.Common.GlobalProjectiles
 			{ ProjectileID.RichGravestone5, ItemID.RichGravestone5 }
 		};
 
-		public override bool PreAI(Projectile projectile)
+		public override bool AppliesToEntity(Projectile entity, bool lateInstantiation)
+		{
+			return _graveMarkerProjectileTypeToItemType.ContainsKey(entity.type);
+		}
+
+		public override void OnSpawn(Projectile projectile, IEntitySource source)
 		{
 			// It's not worth it to prevent tombstones from dropping entirely, so instead,
 			// on the very first frame of a Tombstone existing, it is killed and the associated
 			// item is dropped.
 
-			if (projectile.aiStyle != ProjAIStyleID.GraveMarker || projectile.owner != Main.myPlayer)
+			if (projectile.owner != Main.myPlayer)
 			{
-				return base.PreAI(projectile);
+				return;
 			}
 
 			DropType stopTombstoneLitterOption = ModContent.GetInstance<BlockLitterConfig>().TombstoneLitter;
 
 			if (stopTombstoneLitterOption == DropType.Vanilla)
 			{
-				return base.PreAI(projectile);
+				return;
 			}
 
 			if (stopTombstoneLitterOption == DropType.Item)
 			{
-				int itemIndex = Item.NewItem(projectile.GetItemSource_DropAsItem(), projectile.Hitbox, _graveMarkerProjectileTypeToItemType[projectile.type]);
+				int itemType = _graveMarkerProjectileTypeToItemType[projectile.type];
+				int itemIndex = Item.NewItem(projectile.GetSource_DropAsItem(), projectile.Hitbox, itemType);
 				Main.item[itemIndex].noGrabDelay = 0;
 
 				if (Main.netMode == NetmodeID.Server)
@@ -53,7 +60,6 @@ namespace NoSnowLitter.Common.GlobalProjectiles
 			}
 
 			projectile.Kill();
-			return false;
 		}
 	}
 }
