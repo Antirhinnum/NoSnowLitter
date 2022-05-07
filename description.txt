@@ -9,3 +9,4 @@ Changelog:
  - 1.1.0.0: Added sand- and tombstone-related changes. Added config options. Renamed mod to "No Block Litter".
  - 1.1.0.1: Fixed bugs introduced by a recent alpha update.
  - 1.1.0.2: Fixed bugs introduced in the "OnSpawn hooks" alpha update.
+ - 1.1.0.3: Fixed some bugs from 1.1.0.2.

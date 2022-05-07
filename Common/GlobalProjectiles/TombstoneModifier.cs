@@ -1,7 +1,6 @@
 ﻿using NoSnowLitter.Common.Configs;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -29,25 +28,20 @@ namespace NoSnowLitter.Common.GlobalProjectiles
 			return _graveMarkerProjectileTypeToItemType.ContainsKey(entity.type);
 		}
 
-		public override void OnSpawn(Projectile projectile, IEntitySource source)
+		public override bool PreAI(Projectile projectile)
 		{
 			// It's not worth it to prevent tombstones from dropping entirely, so instead,
 			// on the very first frame of a Tombstone existing, it is killed and the associated
 			// item is dropped.
 
-			if (projectile.owner != Main.myPlayer)
-			{
-				return;
-			}
-
 			DropType stopTombstoneLitterOption = ModContent.GetInstance<BlockLitterConfig>().TombstoneLitter;
 
 			if (stopTombstoneLitterOption == DropType.Vanilla)
 			{
-				return;
+				return base.PreAI(projectile);
 			}
 
-			if (stopTombstoneLitterOption == DropType.Item)
+			if (stopTombstoneLitterOption == DropType.Item && projectile.owner == Main.myPlayer)
 			{
 				int itemType = _graveMarkerProjectileTypeToItemType[projectile.type];
 				int itemIndex = Item.NewItem(projectile.GetSource_DropAsItem(), projectile.Hitbox, itemType);
@@ -60,6 +54,8 @@ namespace NoSnowLitter.Common.GlobalProjectiles
 			}
 
 			projectile.Kill();
+
+			return false;
 		}
 	}
 }

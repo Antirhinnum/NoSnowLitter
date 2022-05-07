@@ -21,33 +21,39 @@ namespace NoSnowLitter.Common.GlobalProjectiles
 			return _sandGunProjectileToItem.ContainsKey(entity.type);
 		}
 
-		public override void SetDefaults(Projectile projectile)
+		public override bool PreKill(Projectile projectile, int timeLeft)
 		{
-			if (ModContent.GetInstance<BlockLitterConfig>().SandgunLitter == DropType.Vanilla)
-			{
-				return;
-			}
-
 			// The Sandgun has four different projectiles:
 			// SandBallGun (42), EbonsandBallGun (65), PearlSandBallGun (68), and CrimsandBallGun (354).
 			// Like most projectiles that place blocks, these will only place blocks if projectile.noDropItem is false.
 
-			projectile.noDropItem = true;
-		}
+			if (ModContent.GetInstance<BlockLitterConfig>().SandgunLitter == DropType.Vanilla)
+			{
+				return base.PreKill(projectile, timeLeft);
+			}
 
-		public override void Kill(Projectile projectile, int timeLeft)
-		{
+			projectile.noDropItem = true;
+
 			if (ModContent.GetInstance<BlockLitterConfig>().SandgunLitter != DropType.Item)
 			{
-				return;
+				return base.PreKill(projectile, timeLeft);
 			}
 
-			if (projectile.owner != Main.myPlayer)
+			// Removed -- For some reason, Sandgun projectiles never spawn items when this check is in place.
+			//if (projectile.owner != Main.myPlayer)
+			//{
+			//	return base.PreKill(projectile, timeLeft);
+			//}
+
+			int itemIndex = Item.NewItem(projectile.GetSource_DropAsItem(), projectile.Hitbox, _sandGunProjectileToItem[projectile.type]);
+			Main.item[itemIndex].noGrabDelay = 0;
+
+			if (Main.netMode == NetmodeID.Server)
 			{
-				return;
+				NetMessage.SendData(MessageID.SyncItem, -1, -1, null, itemIndex, 1f);
 			}
 
-			Item.NewItem(projectile.GetSource_DropAsItem(), projectile.Hitbox, _sandGunProjectileToItem[projectile.type]);
+			return base.PreKill(projectile, timeLeft);
 		}
 	}
 }

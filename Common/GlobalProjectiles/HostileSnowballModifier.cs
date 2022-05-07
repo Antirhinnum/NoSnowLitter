@@ -37,7 +37,13 @@ namespace NoSnowLitter.Common.GlobalProjectiles
 				return;
 			}
 
-			Item.NewItem(projectile.GetSource_DropAsItem(), projectile.Hitbox, ItemID.SnowBlock);
+			int itemIndex = Item.NewItem(projectile.GetSource_DropAsItem(), projectile.Hitbox, ItemID.SnowBlock);
+			Main.item[itemIndex].noGrabDelay = 0;
+
+			if (Main.netMode == NetmodeID.Server)
+			{
+				NetMessage.SendData(MessageID.SyncItem, -1, -1, null, itemIndex, 1f);
+			}
 		}
 	}
 }
