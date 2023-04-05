@@ -1,8 +1,7 @@
 ﻿using Terraria.ModLoader;
 
-namespace NoSnowLitter
+namespace NoSnowLitter;
+
+public sealed class NoSnowLitter : Mod
 {
-	public class NoSnowLitter : Mod
-	{
-	}
 }

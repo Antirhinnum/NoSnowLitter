@@ -1,8 +1,8 @@
 ﻿displayName = No Block Litter
 author = Snek
-version = 1.1.0.3
-homepage = https://forums.terraria.org/index.php?threads/no-snow-litter.106005/
-hideCode = false
-hideResources = false
-includeSource = true
-buildIgnore = build.txt, ./*, bin/*, obj/*, Properties/*, .gitignore, LICENSE, README.md, *.pdn
+version = 1.1.0.4
+homepage = https://github.com/Antirhinnum/NoSnowLitter
+hideCode = true
+hideResources = true
+includeSource = false
+buildIgnore = LICENSE, README.md, *.pdn

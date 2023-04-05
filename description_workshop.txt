@@ -1,9 +1,5 @@
 ﻿No Block Litter is a mod that stops NPCs from dropping blocks everywhere.
 
-Currently, the following sources are blocked from creating blocks:
-* Snow Ballas
-* Antlions
-* Sandgun
-* Tombstones
+Currently, the following sources are blocked from creating blocks:[list][*]Snow Ballas[*]Antlions[*]Sandgun[*]Tombstones[/list]
 
 All of these can be configured to follow vanilla's logic, to drop the corresponding item, or to simply vanish.
